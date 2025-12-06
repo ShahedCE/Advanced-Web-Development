@@ -1,0 +1,7 @@
+.footer {
+  background-color: #1f2937; /* Tailwind gray-800 */
+  color: #f9fafb; /* Tailwind gray-50 */
+  text-align: center;
+  padding: 1rem 0;
+  font-size: 0.875rem; /* Tailwind text-sm */
+}
