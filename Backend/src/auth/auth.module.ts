@@ -7,11 +7,12 @@ import { jwtConstants } from './constants';
 import { AdminInfo } from '../admin/admin.entity';
 import { ManagerInfo } from '../manager/manager.entity';
 import { AuthGuard } from './auth.guard';
+import { Customer } from 'src/customer/customer.entity';
 
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([AdminInfo, ManagerInfo]),
+    TypeOrmModule.forFeature([AdminInfo, ManagerInfo, Customer]),
     JwtModule.register({
       global: true,
       secret: jwtConstants.secret,

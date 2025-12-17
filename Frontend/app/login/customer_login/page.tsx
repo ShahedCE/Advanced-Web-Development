@@ -15,11 +15,7 @@ export default function Login() {
 
   const { setUser } = useContext(UserContext);
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<LoginFormData>({
+  const {register,handleSubmit, formState: { errors },} = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
   });
 

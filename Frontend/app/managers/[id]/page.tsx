@@ -28,9 +28,9 @@ export default function ViewManager() {
   useEffect(() => {
     const fetchManager = async () => {
       try {
-        const token = localStorage.getItem("adminToken");
+        const token = localStorage.getItem("token");
         if (!token) {
-          router.push("/login/admin_login");
+          router.push("/login");
           return;
         }
 

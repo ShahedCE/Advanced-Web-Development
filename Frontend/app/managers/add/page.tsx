@@ -72,7 +72,7 @@ export default function CreateManagerPage() {
     setLoading(true);
 
     try {
-      const token = localStorage.getItem("adminToken");
+      const token = localStorage.getItem("token");
       const formData = new FormData();
       Object.entries(result.data).forEach(([key, value]) => {
         formData.append(key, value as any);

@@ -16,13 +16,15 @@ import { customerService } from './customer.service';
 import { CreateCustomerDto } from './dtos/create_customer.dto';
 import { UpdateCustomerDto } from './dtos/update_customer.dto';
 import { UpdateCustomerPutDto } from './dtos/update_customer_put.dto';
+import { AuthGuard } from 'src/auth/auth.guard';
 
 @Controller('customer')
 export class CustomerController {
   constructor(private customer_service: customerService) {}
 
   //------------------------------------------------- GET METHODS ------------------------------------------------------------
-  @Get('all_customers')
+    @UseGuards(AuthGuard)
+@Get('all_customers')
   async getAllCustomers() {
     return await this.customer_service.getAllCustomers();
   } //..................................................................
@@ -32,16 +34,18 @@ export class CustomerController {
     return await this.customer_service.getCustomersWithNullFullName();
   } //..................................................................
 
-  @Get('track')
+    @UseGuards(AuthGuard)
+@Get('track')
   TrackCustomerParcelById() {
     return 'Track All Customer Parcel successfully By Id';
   } //..................................................................
 
+    @UseGuards(AuthGuard)
   @Get('Details')
   getCustomerDetails() {
     return 'Customer details retrieved successfully';
   } //..................................................................
-  @UseGuards(authorizeGuards)
+  @UseGuards(AuthGuard)
   @Get('phone/:phone')
   async getCustomerByPhone(@Param('phone') phone: string) {
     return await this.customer_service.findCustomerByPhone(phone);
@@ -53,7 +57,8 @@ export class CustomerController {
   } //..................................................................
 
   //------------------------------------------------- POST METHODS ------------------------------------------------------------
-  @Post('add_customers')
+   @UseGuards(AuthGuard)
+ @Post('add_customers')
   async createCustomer(
     @Body(new ValidationPipe({ whitelist: true, transform: true }))
     customer: CreateCustomerDto,

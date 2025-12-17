@@ -64,8 +64,14 @@ export default function CustomersDashboard() {
   useEffect(() => {
     const fetchCustomers = async () => {
       try {
+        const token = localStorage.getItem('token');
         const res = await axios.get(
-          'http://localhost:3000/customer/all_customers'
+          'http://localhost:3000/customer/all_customers',
+            {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
         );
         const data = res.data?.data || res.data;
         setCustomers(data);
@@ -93,8 +99,19 @@ export default function CustomersDashboard() {
 
   const handleDelete = async (id: number) => {
     setDeletingId(id);
+
     try {
-      await axios.delete(`http://localhost:3000/customer/${id}`);
+
+      const token= localStorage.getItem('token');
+
+      await axios.delete(`http://localhost:3000/customer/${id}`,
+        {
+          headers:{
+                       Authorization: `Bearer ${token}`,
+            
+          }
+        },
+      );
       setCustomers(prev => prev.filter(c => c.id !== id));
       showNotification('success', 'Customer deleted successfully!');
     } catch (err) {
@@ -107,9 +124,18 @@ export default function CustomersDashboard() {
   const handleAddCustomer = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
+
+            const token= localStorage.getItem('token');
+
       const res = await axios.post(
         'http://localhost:3000/customer/add_customers',
-        newCustomer
+        newCustomer,
+          {
+          headers:{
+                    Authorization: `Bearer ${token}`,
+
+          }
+        },
       );
       setCustomers(prev => [...prev, res.data.data]);
       setShowForm(false);

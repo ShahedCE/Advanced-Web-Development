@@ -5,6 +5,13 @@ import { useContext, useState } from 'react';
 import { UserContext } from '../../context/UserContext';
 import HeaderNotifications from '../../orders/HeaderNotifications';
 
+  /*<li>
+          <Link href="/login/manager_login">Manager_Login</Link>
+        </li>
+            <li>
+              <Link href="/login/customer_login">Customer_Login</Link>
+            </li> */
+
 export default function Header() {
   const { user, setUser } = useContext(UserContext);
   const [showDropdown, setShowDropdown] = useState(false);
@@ -14,7 +21,7 @@ export default function Header() {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     setUser(null);
-    router.push('/login');
+    router.push('/login/customer_login');
   };
 
   return (
@@ -34,24 +41,19 @@ export default function Header() {
 
           <Link href="/dashboard/admin">Dashboard</Link>
         </li>
-        <li>
-          <Link href="/login/admin_login">Admin Login</Link>
-        </li> 
-        <li>
-          <Link href="/login/manager_login">Manager Login</Link>
-        </li>
-     
+
 
         {!user ? (
-          <>
-            <li>
-              <Link href="/login/customer_login">Login</Link>
-            </li>
+          <>  
+          <li>
+          <Link href="/login">User Login</Link>
+        </li> 
+     
             <li>
               <Link href="/signup/customer_signup">Sign Up</Link>
             </li>
           </>
-        ) : (
+        ) : (   //
           <>
             <li className="relative">
               <HeaderNotifications />

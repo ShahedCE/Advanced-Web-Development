@@ -1,4 +1,4 @@
-"use client";
+/*"use client";
 import { useEffect } from "react";
 import { Client as PusherPushNotifications } from "@pusher/push-notifications-web";
 
@@ -26,3 +26,4 @@ export default function Notification() {
 
   return null;
 }
+*/

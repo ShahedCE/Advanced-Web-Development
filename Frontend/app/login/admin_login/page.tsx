@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { z } from "zod";
 
 const loginSchema = z.object({
-  username: z.string().min(1, "Username is required"),
+  identifier: z.string().min(1, "Username is required"),
   password: z.string().min(6, "Password must have at least 6 characters"),
 });
 
@@ -18,7 +18,7 @@ export default function AdminLogin() {
 
   const router = useRouter();
 
-  const [username, setUsername] = useState("");
+  const [identifier, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
@@ -27,7 +27,7 @@ export default function AdminLogin() {
 
     e.preventDefault();
     // Validate with Zod
-    const result = loginSchema.safeParse({ username, password }); //result holds object
+    const result = loginSchema.safeParse({ identifier, password }); //result holds object
 
     if (!result.success) {
       // Extract first error message
@@ -48,7 +48,7 @@ export default function AdminLogin() {
       //set token
       const token = response.data.access_token; // backend should return { token: "..." }
       // Save token for future requests
-      localStorage.setItem("adminToken", token);  //save in adminToken
+      localStorage.setItem("token", token);  //save in adminToken
 
       setError("");
       setSuccess("Login successful!");
@@ -73,13 +73,13 @@ export default function AdminLogin() {
         <h2 className="text-2xl font-bold text-center mb-6">Admin Login</h2>
         <form className="space-y-3" onSubmit={handleSubmit}>
           <div>
-            <label htmlFor="username" className="block text-m">
+            <label htmlFor="identifier" className="block text-m">
               Username:
             </label>
             <input
               type="text"
-              name="username"
-              value={username}
+              name="identifier"
+              value={identifier}
               onChange={(e) => setUsername(e.target.value)}
               className="w-full px-3 py-2 border rounded-lg font-medium"
             />

@@ -26,10 +26,10 @@ export default function ManagerListPage() {
   useEffect(() => { 
     const fetchManagers = async () => {
       try {
-        const token = localStorage.getItem("adminToken");
+        const token = localStorage.getItem("token");
         if (!token) {
           // redirect if not logged in
-          router.push("/login/admin_login");
+          router.push("/login");
           return;
         }
 
@@ -58,7 +58,7 @@ export default function ManagerListPage() {
     if (!confirm("Are you sure you want to delete this manager?")) return;
 
     try {
-      const token = localStorage.getItem("adminToken");
+      const token = localStorage.getItem("token");
       await axios.delete(
         `${process.env.NEXT_PUBLIC_API_ENDPOINT}/admin/deletemanager/${id}`,
         {

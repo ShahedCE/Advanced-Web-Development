@@ -42,7 +42,7 @@ export default function EditManager() {
   useEffect(() => {
     const fetchManager = async () => {
       try {
-        const token = localStorage.getItem("adminToken");
+        const token = localStorage.getItem("token");
         const res = await axios.get(
           `${process.env.NEXT_PUBLIC_API_ENDPOINT}/admin/getmanager/${id}`,
           { headers: { Authorization: `Bearer ${token}` } }
@@ -98,8 +98,9 @@ export default function EditManager() {
     setError("");
     setLoading(true);
 
+//updating with new manager data
     try {
-      const token = localStorage.getItem("adminToken");
+      const token = localStorage.getItem("token");
       const formData = new FormData();
       formData.append("fullname", fullname);
       formData.append("email", email);

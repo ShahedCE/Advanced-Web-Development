@@ -1,11 +1,12 @@
-import BookingScheduler from '@/components/booking-scheduler/booking-scheduler';
-import CoverageMap from '@/components/coverage-map/coverage-map';
-import HeroSection from '@/components/hero-section/hero-section';
-import PricingCard from '@/components/pricing-card/pricing-card';       
-import ProcessSteps from '@/components/process-steps/process-steps';
-import ServicesShowcase from '@/components/services-showcase/services-showcase';
-import Testimonials from '@/components/testimonials/testimonials';
-import WhyChooseUs from '@/components/why-choose-us/why-choose-us';
+import BookingScheduler from "./BookingScheduler";
+import CoverageMap from "./CoverageMap";
+import HeroSection from "./hero";
+import PricingCard from "./PricingCard";
+import ProcessSteps from "./ProcessSteps";
+import ServicesShowcase from "./ServicesShowcase";
+import Testimonials from "./Testimonials";
+import WhyChooseUs from "./WhyChooseUs";
+
 
 
 export default function Home() {
