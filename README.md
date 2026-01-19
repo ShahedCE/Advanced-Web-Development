@@ -1,5 +1,4 @@
-# Advanced-Web-Development
- Laundry Management System
+# Laundry Management System
 
 A Role-Based Laundry Management System built to automate and streamline laundry service operations.
 The system replaces manual order handling with a secure, scalable, and role-driven web application, ensuring proper access control and efficient workflow management.
