@@ -10,8 +10,8 @@ import { Customer } from 'src/customer/customer.entity';
 @Injectable()
 export class AuthService {
   constructor(
-    @InjectRepository(AdminInfo) private adminRepo: Repository<AdminInfo>,
-    @InjectRepository(ManagerInfo) private managerRepo: Repository<ManagerInfo>,
+    @InjectRepository(AdminInfo) private readonly adminRepo: Repository<AdminInfo>,
+    @InjectRepository(ManagerInfo) private readonly managerRepo: Repository<ManagerInfo>,
     @InjectRepository(Customer) private readonly customerRepo: Repository<Customer>,
      
     //  @InjectRepository(Customer_profile)private readonly profileRepo: Repository<Customer_profile>
@@ -19,68 +19,65 @@ export class AuthService {
     private jwtService: JwtService, 
     ) {}
 
-  async signIn(username_or_email: string, password: string) {
-  
-  const admin = await this.adminRepo.findOne({ where: { fullname: username_or_email } });
-  
-  let role = 'admin';
- //if no admin exists
- if(admin){
-  console.log(admin.fullname);
-    const isPasswordValid = await bcrypt.compare(password, admin.password);
-    if (!isPasswordValid) {
-      throw new UnauthorizedException('Invalid Password Admin');
-    }
- const payload = { sub: admin.id, username: admin.fullname,role:role }; // sub = userId conventionally
- console.log(payload.role);
-    return {
-      access_token: await this.jwtService.signAsync(payload),role:role //generate token with payload and secret
-    }
- }
+  async signIn(identifier: string, password: string) {
 
-//FOR MANAGER
-  const manager = await this.managerRepo.findOne({ where: { email: username_or_email } });
-  role = 'manager';
-if (manager){ 
-  //if manager exissts
-  console.log(manager.email);
-  const isPasswordValid = await bcrypt.compare(password, manager.password);
-    if (!isPasswordValid) {
-      throw new UnauthorizedException('Invalid Password Manager');
-    }
-    const payload={ sub: manager.id, username: manager.email, role:role};
-  console.log(payload.role);
-    return {
-              access_token: await this.jwtService.signAsync(payload,),role:role//encoding payload
-    }
-   }
+  let user: any = null;
+  let role: 'admin' | 'manager' | 'customer'| null=null;
 
-   //FOR CUSTOMER
+  // 1️⃣ Try ADMIN
+  user = await this.adminRepo.findOne({
+    where: { fullname: identifier },
+  });
 
-   const customer = await this.customerRepo.findOne({ where: { phone: username_or_email}})
-   role="customer";
-   if(!customer){
-    //if no customer
-  throw new UnauthorizedException('Invalid Username or Email or Phone Number');
+  if (user) role = 'admin';
+
+  //  Try MANAGER
+  if (!user) {
+    user = await this.managerRepo.findOne({
+      where: { email: identifier },
+    });
+    if (user) role = 'manager';
   }
-  //if customer
-  console.log(customer.phone);
-   const isPasswordValid = await bcrypt.compare(password, customer.password);
 
-   if(!isPasswordValid){
-    throw new UnauthorizedException('Invalid Password Customer');
-   }
+  //Try CUSTOMER
+  if (!user) {
+    user = await this.customerRepo.findOne({
+      where: { phone: identifier },
+    });
+    if (user) role = 'customer';
+  }
 
-   const payload={ sub: customer.id , username: customer.phone, role:role}; //for backend secuirity
-     console.log(payload.role);
+  // ❌ No user found
+  if (!user) {
+    throw new UnauthorizedException('Invalid credentials');
+  }
+  // Password check (ONCE)
+  const isPasswordValid = await bcrypt.compare(password, user.password);
+  if (!isPasswordValid) {
+    throw new UnauthorizedException('Invalid password');
+  }
 
-   
+  //  JWT payload (BACKEND SECURITY)
+  const payload = {
+    sub: user.id,
+    role,
+  };
+
+  const access_token = await this.jwtService.signAsync(payload);
+
+  // 📦 FRONTEND RESPONSE
   return {
-    access_token: await this.jwtService.signAsync(payload),role:role //to pass in the frontend
-  }
-    
+    access_token,
+    user: {
+      id: user.id,
+      full_name: user.fullname ?? user.full_name ?? null,
+      email: user.email ?? null,
+      phone: user.phone ?? null,
+      role,
+    },
+  };
+}
 
-  }
 }
 
 

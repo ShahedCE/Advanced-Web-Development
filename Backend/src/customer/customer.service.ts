@@ -141,7 +141,7 @@ export class customerService {
   //------------------------------------------------- POST METHODS ------------------------------------------------------------
   public async createCustomer(customer: CreateCustomerDto) {
     const existingCustomer = await this.customerRepo.findOne({
-      where: [{ phone: customer.phone }, { email: customer.email }],
+      where: [{ phone: customer.phone }],
     });
 
     if (existingCustomer) {
@@ -169,7 +169,7 @@ export class customerService {
 
     return {
       statusCode: HttpStatus.CREATED,
-      message: 'Customer created successfully',
+      message: 'Customer created successfully!!!!!!!!!!!',
       data: savedCustomer,
     };
   } //......................................................................................................................

@@ -13,6 +13,17 @@ export class ManagerService {
     @InjectRepository(ManagerInfo) private managerRepo: Repository<ManagerInfo>,
   ) {}
 
+
+    // Fetch manager by ID
+  async getManagerProfile(id: number): Promise<ManagerInfo> {
+    const manager = await this.managerRepo.findOne({ where: { id } });
+
+    if (!manager) {
+      throw new NotFoundException(`Manager with ID ${id} not found`);
+    }
+
+    return manager;
+  }
 async updateManager( mid: number,updateData:UpdateManagerDto): Promise <{message: string, updated: ManagerInfo}>{
   const manager= await this.managerRepo.findOne({where: {id: mid} });
 

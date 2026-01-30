@@ -14,7 +14,11 @@ import * as bcrypt from'bcrypt';
 export class ManagerController {
   constructor(private readonly managerService: ManagerService) {}
 
-
+@UseGuards(AuthGuard)
+  @Get('managerprofile/:id')
+  async getManagerProfile(@Param('id') id: string) {
+    return this.managerService.getManagerProfile(+id); // +id converts to number
+  }
   
 @UseGuards(AuthGuard)
 @Put('updateprofile/:mid')

@@ -19,10 +19,10 @@ export class Customer {
   @Column({ type: 'varchar', nullable: true })
   full_name?: string;
 
-  @Column({ type: 'varchar', nullable: true, unique: true })
+  @Column({ type: 'varchar', nullable: true})
   email?: string;
 
-  @Column({ type: 'varchar', nullable: false, unique: true })
+  @Column({ type: 'varchar', nullable: false })
   phone: string;
 
   @Column({ type: 'varchar', nullable: false })

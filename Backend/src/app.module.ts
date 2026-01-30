@@ -12,6 +12,7 @@ import { CustomerProfileModule } from './customer_profile/customer_profile.modul
 import { EmailModule } from './email/email.module';
 import { ManagerModule } from './manager/manager.module';
 import { OrdersModule } from './orders/orders.module';
+import { DataSource } from 'typeorm';
 
 @Module({
   imports: [
@@ -21,23 +22,28 @@ import { OrdersModule } from './orders/orders.module';
       envFilePath: '.env', // fallback চাইলে ['.env.local', '.env']
     }),
 
-    // 2️⃣ TypeOrmModule configure (Postgres)
+    // 2️⃣ TypeOrmModule configure ( Cloud Postgres Neon )
     TypeOrmModule.forRootAsync({
-      inject: [ConfigService],
-      useFactory: (config: ConfigService) => ({
-        type: 'postgres',
-        host: config.get('DB_HOST') || 'localhost',
-        port: Number(config.get('DB_PORT') ?? 5432),
-        username: config.get('DB_USER') || 'postgres',
-        password: config.get('DB_PASS') || 'Shahed',
-        database: config.get('DB_NAME') || 'laundry',
-        autoLoadEntities: true,
-        synchronize: true,
-        extra: {
-          options: '-c timezone=Asia/Dhaka',
-        },
-      }),
-    }),
+  inject: [ConfigService],
+  useFactory: (config: ConfigService) => ({
+    type: 'postgres',
+    host: config.get('DB_HOST'),
+    port: Number(config.get('DB_PORT')),
+    username: config.get('DB_USER'),
+    password: config.get('DB_PASS'),
+    database: config.get('DB_NAME'),
+    autoLoadEntities: true,
+    synchronize: true,
+    logging: false, // Logging ON
+    logger: 'advanced-console',
+    ssl: {
+      rejectUnauthorized: false,
+    },
+    extra: {
+      options: '-c timezone=Asia/Dhaka',
+    },
+  }),
+}),
 
     // 3️⃣ MailerModule configure (Gmail SMTP or custom)
     MailerModule.forRootAsync({
@@ -70,4 +76,8 @@ import { OrdersModule } from './orders/orders.module';
     AuthModule,
   ],
 })
-export class AppModule {}
+export class AppModule {
+    constructor(private dataSource: DataSource) {
+    console.log('DB Connection Established:', dataSource.isInitialized); // to show DB Connection Established:true
+  }
+}

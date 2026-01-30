@@ -16,7 +16,7 @@ export class OrdersController {
   constructor(private readonly ordersService: OrdersService) {}
 
   // Create order
-  @Post()
+  @Post('placeorder')
   async create(
     @Body() createOrderDto: CreateOrderDto,
     @Req() req,
