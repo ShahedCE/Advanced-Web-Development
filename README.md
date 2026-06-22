@@ -3,12 +3,12 @@
 A Role-Based Laundry Management System built to automate and streamline laundry service operations.
 The system replaces manual order handling with a secure, scalable, and role-driven web application, ensuring proper access control and efficient workflow management.
 
-# Project Description
+## Project Description
 
 This application is designed for laundry businesses that need a structured system to manage users, services, and orders.
 It supports multiple user roles with clearly defined responsibilities and permissions.
 
-# User Roles & Responsibilities
+## User Roles & Responsibilities
 Admin
 
 Manage managers (create, read, update, delete)
@@ -43,7 +43,7 @@ Structured backend logic to eliminate manual order handling
 
 Modern and responsive frontend interface
 
-# System Architecture
+## System Architecture
 
 Frontend: React (Next.js)
 
@@ -75,7 +75,7 @@ Role-based authorization and validation
 
 Clean separation of controllers, services, and modules
 
-# Database
+## Database
 
 PostgreSQL used as the relational database
 
